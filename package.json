@@ -1,7 +1,7 @@
 {
   "name": "practise",
   "version": "0.1.0",
-  "homepage": "https://Saro9033.github.io/Todo-List",
+  "homepage": "http://Saro9033.github.io/Todo-List",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
