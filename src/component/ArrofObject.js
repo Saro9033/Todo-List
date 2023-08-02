@@ -1,21 +1,16 @@
 import React from 'react'
 import ItemsList from './itemsList'
-import AddItems from './addItems'
 
 
-const ArrofObject = ({items,  handleCheck, handleDelete, handleSubmit, addItems, setAddItems, 
-    }) => {
+const ArrofObject = ({items,  handleCheck, handleDelete}) => {
 
     return (
        
-        <div className='todo-list'> 
-        <AddItems handleSubmit={handleSubmit}  addItems={addItems} setAddItems={setAddItems}/>
-        
+        <div className='todo-list'>     
             {(items.length > 0) ? ( 
             // props drilling      
          <ItemsList items={items} handleCheck={handleCheck}  
-      handleDelete={handleDelete}
-      >  
+      handleDelete={handleDelete} >  
          </ItemsList>
        
          ) :  <h2>Your list is Empty</h2> }

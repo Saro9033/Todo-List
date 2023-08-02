@@ -5,6 +5,7 @@ import Footer  from './component/footer';
 import ArrofObject from './component/ArrofObject';
 import React, { useState }  from 'react';
 import ListNav from './component/listNav'
+import AddItems from './component/addItems';
 
 function App() {
   const [items, setItems] = useState(
@@ -48,8 +49,10 @@ var k=0, j=0;
     
   return (
     <div className="App">
-       <ListNav handleDeleteAll = {handleDeleteAll}
-      search={search} setSearch={setSearch}/>    
+       <AddItems handleSubmit={handleSubmit}  addItems={addItems} setAddItems={setAddItems}/>  
+       <ListNav  handleDeleteAll = {handleDeleteAll}
+      search={search} setSearch={setSearch}/>  
+      
       <ArrofObject  items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))} 
       handleCheck={handleCheck}  
       handleDelete={handleDelete} handleSubmit={handleSubmit}
