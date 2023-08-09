@@ -3,17 +3,42 @@ import './App.css';
 // import Counter from './component/Counter';
 import Footer  from './component/footer';
 import ArrofObject from './component/ArrofObject';
-import React, { useState }  from 'react';
+import React, { useEffect, useState }  from 'react';
 import ListNav from './component/listNav'
 import AddItems from './component/addItems';
+import ApiRequest from './component/apiRequest';
 
 function App() {
-  const [items, setItems] = useState(
-   [{id:1, check:true, item:"Wake Up"}]
-);
+  const [items, setItems] = useState( []);
+  const [addItems, setAddItems] = useState('')
+  const [search, setSearch] = useState('')
 
-const [addItems, setAddItems] = useState('')
-const [search, setSearch] = useState('')
+  //Fetching data
+  const API_URL = 'http://localhost:3500/Items'
+  const [fetchError, setFetchError] = useState(null)
+  const [isLoad, setIsLoad]= useState(true)
+
+useEffect(()=>{
+  const fetchItems = async () =>{
+  try {
+    const response = await fetch(API_URL);
+    if(!response.ok) throw Error("Data not Received");
+    const list = await response.json()
+    setItems(list)
+    setFetchError(null)
+  } catch (error) {
+    setFetchError(error.message)
+  }
+  finally{
+    setIsLoad(false)
+    console.log("loading")
+  }
+  }
+  setTimeout(()=>{
+    (async ()=> await fetchItems())()
+  }, 2000 )
+
+}, [])
 
 const handleCheck = (id) => {
    const listItems = items.map(item => item.id === id ? {...item, check:!item.check} : item)
@@ -31,12 +56,30 @@ const handleDelete = (id) => {
 
 const handleSubmit = (event) => {
     event.preventDefault();
-    const Id = items.length +1
-    const listItems = {id:Id, check:false, item:addItems}
-    setItems([...items , listItems])
+    if(!addItems) return;
+    addItem(addItems)
     setAddItems('')
-    localStorage.setItem("todo_list", JSON.stringify(listItems))
   }
+
+const addItem = async (item) => {
+  const id= items.length ? items[items.length -1].id+1 : 1;
+  const addNewitem = {id, checked : false, item}
+  const listItems =[...items, addNewitem]
+  setItems(listItems)
+
+  const optionObj = {
+    method:'POST',
+    headers:{
+     'Content-Type':'application/json'
+    },
+    body: JSON.stringify(addNewitem)
+  }
+
+  const result = await ApiRequest(API_URL, optionObj)
+  if(result) setFetchError(result)
+
+
+}
 
 const handleDeleteAll = () => {
   const dd = items.filter(r => r === r.id )
@@ -46,19 +89,25 @@ const handleDeleteAll = () => {
 var k=0, j=0;
      items.map((n) => (n.check === true) ? k++ : j++);
 
+
+
     
   return (
     <div className="App">
        <AddItems handleSubmit={handleSubmit}  addItems={addItems} setAddItems={setAddItems}/>  
        <ListNav  handleDeleteAll = {handleDeleteAll}
       search={search} setSearch={setSearch}/>  
-      
+    <div className='todo-list'>  
+     {fetchError && <p style={{fontSize:'20px'}}>{`Error: ${fetchError}`}</p>}
+     {isLoad && <p style={{fontSize:'20px'}}>Loading items...</p>}
+     {!fetchError && !isLoad &&
       <ArrofObject  items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))} 
       handleCheck={handleCheck}  
-      handleDelete={handleDelete} handleSubmit={handleSubmit}
+      handleDelete={handleDelete}
       addItems={addItems} setAddItems={setAddItems} >
-      </ArrofObject>
-             
+       
+      </ArrofObject>}</div>
+     
       <Footer itemsLen={items.length} Checked={k} unChecked={j}/>
     </div>
   );
