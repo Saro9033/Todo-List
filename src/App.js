@@ -13,32 +13,7 @@ function App() {
   const [addItems, setAddItems] = useState('')
   const [search, setSearch] = useState('')
 
-  //Fetching data
-  const API_URL = 'http://localhost:3500/Items'
-  const [fetchError, setFetchError] = useState(null)
-  const [isLoad, setIsLoad]= useState(true)
-
-useEffect(()=>{
-  const fetchItems = async () =>{
-  try {
-    const response = await fetch(API_URL);
-    if(!response.ok) throw Error("Data not Received");
-    const list = await response.json()
-    setItems(list)
-    setFetchError(null)
-  } catch (error) {
-    setFetchError(error.message)
-  }
-  finally{
-    setIsLoad(false)
-    console.log("loading")
-  }
-  }
-  setTimeout(()=>{
-    (async ()=> await fetchItems())()
-  }, 2000 )
-
-}, [])
+  
 
 const handleCheck = (id) => {
    const listItems = items.map(item => item.id === id ? {...item, check:!item.check} : item)
