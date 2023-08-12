@@ -24,6 +24,12 @@ text-align: center;
  width: 80%;
  font-size: 25px;
  padding: 10px;
+}
+
+.addForm button:focus, button:hover{
+    color: white ;
+    background-color: limegreen;
+    outline: none;
 
 }
 

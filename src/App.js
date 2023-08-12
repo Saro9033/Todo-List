@@ -8,18 +8,17 @@ import ListNav from './component/listNav'
 import AddItems from './component/addItems';
 
 function App() {
-  const [items, setItems] = useState(
-   [{id:1, check:true, item:"Wake Up"}]
-);
+  const [items, setItems] = useState([ 
+  {  "id": 1,
+  "check": true,
+  "item": "Wake up"}]);
+  const [addItems, setAddItems] = useState('')
+  const [search, setSearch] = useState('')
 
-const [addItems, setAddItems] = useState('')
-const [search, setSearch] = useState('')
 
 const handleCheck = (id) => {
    const listItems = items.map(item => item.id === id ? {...item, check:!item.check} : item)
-   setItems(listItems)
-   localStorage.setItem("todo_list", JSON.stringify(listItems))
-  
+   setItems(listItems)  
 }
 
 const handleDelete = (id) => {
@@ -31,12 +30,18 @@ const handleDelete = (id) => {
 
 const handleSubmit = (event) => {
     event.preventDefault();
-    const Id = items.length +1
-    const listItems = {id:Id, check:false, item:addItems}
-    setItems([...items , listItems])
+    if(!addItems) return;
+    addItem(addItems)
     setAddItems('')
-    localStorage.setItem("todo_list", JSON.stringify(listItems))
   }
+
+const addItem =  (item) => {
+  const id= items.length ? items[items.length -1].id+1 : 1;
+  const addNewitem = {id, checked : false, item}
+  const listItems =[...items, addNewitem]
+  setItems(listItems)
+
+}
 
 const handleDeleteAll = () => {
   const dd = items.filter(r => r === r.id )
@@ -46,19 +51,21 @@ const handleDeleteAll = () => {
 var k=0, j=0;
      items.map((n) => (n.check === true) ? k++ : j++);
 
+
+
     
   return (
     <div className="App">
        <AddItems handleSubmit={handleSubmit}  addItems={addItems} setAddItems={setAddItems}/>  
        <ListNav  handleDeleteAll = {handleDeleteAll}
       search={search} setSearch={setSearch}/>  
-      
+    <div className='todo-list'>  
       <ArrofObject  items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))} 
       handleCheck={handleCheck}  
-      handleDelete={handleDelete} handleSubmit={handleSubmit}
+      handleDelete={handleDelete}
       addItems={addItems} setAddItems={setAddItems} >
-      </ArrofObject>
-             
+      </ArrofObject></div>
+     
       <Footer itemsLen={items.length} Checked={k} unChecked={j}/>
     </div>
   );
