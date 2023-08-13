@@ -3,8 +3,12 @@
     padding: 0;
 }
 .App{
-    width:100%;
-    height:100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+ 
 }
 
 .todo-list{
@@ -14,18 +18,22 @@
     width: 100%;
 }
 
-.todo-list .addForm{
+ .addForm{
     background-color: rgb(19, 185, 241) ;
-    text-align: center;
-    width :50%;
-    height:80vh;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
+text-align: center;
+ width: 80%;
+ font-size: 25px;
+ padding: 10px;
 }
 
-.todo-list .addForm input{
+.addForm button:focus, button:hover{
+    color: white ;
+    background-color: limegreen;
+    outline: none;
+
+}
+
+ .addForm input{
     height:50px;
     margin: 15px;
     border: none;
@@ -34,17 +42,14 @@
     border-radius: 25px;
     font-size: 20px;
     padding-left: 10px;
-    margin-top: 100px;
-    width: 180px;
-
 }
 
-.todo-list input:focus{
+input:focus{
     border: none;
     outline: none;
 }
 
-.todo-list .search{
+.search{
     padding: 5px;
     font-size: 20px;
     border-radius: 5px;
@@ -54,14 +59,15 @@
 }
 
 .todo-list ul, h2{
-    height:80vh;
+    height:45vh;
     background-color: orangered ;
     text-align: left;
-    width :50%;
+    width :80%;
     list-style-type: none;
     flex-direction: column;
     align-items: center;
     display: flex;
+    padding: 10px;
 }
 
 .todo-list ul li{
@@ -110,7 +116,8 @@
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    padding:5px;
+    width: 80%;
+    padding: 10px;
 }
 .searchForm input{
     border-radius: 10px;
@@ -129,4 +136,5 @@
     align-items: baseline;
     padding:10px;
     background-color: black;
+    width: 80%;
 }

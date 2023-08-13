@@ -1,14 +1,15 @@
-import React from 'react'
+import React, {useRef} from 'react'
 
-const addItems = ({ handleSubmit, addItems, setAddItems}) => {
+const AddItems = ({ handleSubmit, addItems, setAddItems}) => {
+  const inputRef = useRef()
   return (
            
            <form className='addForm' onSubmit={handleSubmit}>
         <h3>ToDo List Add Items</h3>
-            <input required placeholder='Add Items' type='text' value={addItems} autoFocus 
+            <input ref={inputRef} required placeholder='Add Items' type='text' value={addItems} autoFocus 
              onChange={(e)=> setAddItems(e.target.value)}></input>
-            <button className='search' type='submit' >submit</button></form>
+            <button onClick={() => inputRef.current.focus()} className='search' type='submit' >submit</button></form>
   )
 }
 
-export default addItems
+export default AddItems
